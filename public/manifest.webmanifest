@@ -1,0 +1,10 @@
+{
+  "name": "socialscheduleweb",
+  "short_name": "socialscheduleweb",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+
+  ]
+}
