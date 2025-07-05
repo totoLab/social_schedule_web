@@ -1,0 +1,15 @@
+<div>
+  <h2>{{ currentMonth | date:'MMMM yyyy' }}</h2>
+  <button (click)="prevMonth()">Previous</button>
+  <button (click)="nextMonth()">Next</button>
+
+  <div class="calendar-grid">
+    <div *ngFor="let day of daysInMonth" class="day">
+      <span>{{ day | date:'d' }}</span>
+      <div *ngIf="getScheduleForDay(day) as schedule" class="schedule-entry">
+        <span [style.color]="schedule.person.color">{{ schedule.person.name }}</span>
+        <span>{{ schedule.contentType.name }}</span>
+      </div>
+    </div>
+  </div>
+</div>

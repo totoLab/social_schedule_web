@@ -1,0 +1,27 @@
+<div>
+  <h2>People Schedules</h2>
+
+  <select [(ngModel)]="selectedPersonId" (change)="onPersonSelect()">
+    <option [ngValue]="null">Select a Person</option>
+    <option *ngFor="let person of people" [ngValue]="person.id">{{ person.name }}</option>
+  </select>
+
+  <div *ngIf="selectedPersonId">
+    <div>
+      <button (click)="prevPeriod()">Previous</button>
+      <span>{{ viewMode === 'month' ? (currentMonth | date:'MMMM') + ' ' + currentYear : currentYear }}</span>
+      <button (click)="nextPeriod()">Next</button>
+    </div>
+    <div>
+      <button (click)="changeViewMode('month')">Month View</button>
+      <button (click)="changeViewMode('year')">Year View</button>
+    </div>
+
+    <h3>Schedules for {{ selectedPersonName }}</h3>
+    <ul>
+      <li *ngFor="let schedule of personSchedules">
+        {{ schedule.scheduledDate | date:'mediumDate' }} - {{ schedule.contentType.name }}
+      </li>
+    </ul>
+  </div>
+</div>
