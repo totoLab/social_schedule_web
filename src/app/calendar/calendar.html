@@ -1,15 +1,14 @@
-<div>
-  <h2>{{ currentMonth | date:'MMMM yyyy' }}</h2>
-  <button (click)="prevMonth()">Previous</button>
-  <button (click)="nextMonth()">Next</button>
-
-  <div class="calendar-grid">
-    <div *ngFor="let day of daysInMonth" class="day">
-      <span>{{ day | date:'d' }}</span>
-      <div *ngIf="getScheduleForDay(day) as schedule" class="schedule-entry">
-        <span [style.color]="schedule.person.color">{{ schedule.person.name }}</span>
-        <span>{{ schedule.contentType.name }}</span>
-      </div>
-    </div>
+<div class="calendar-container">
+  <div class="calendar-header">
+    <button (click)="decrementMonth()">Previous</button>
+    <button (click)="today()">Today</button>
+    <button (click)="incrementMonth()">Next</button>
   </div>
+  <h3>{{ viewDate | calendarDate: 'monthViewTitle' : 'en' }}</h3>
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="calendarEvents"
+    [activeDayIsOpen]="true"
+  >
+  </mwl-calendar-month-view>
 </div>

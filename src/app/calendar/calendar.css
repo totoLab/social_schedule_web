@@ -1,17 +1,70 @@
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  margin-top: 20px;
+.calendar-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.day {
-  border: 1px solid #ccc;
-  padding: 10px;
-  min-height: 100px;
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.schedule-entry {
-  margin-top: 5px;
+.calendar-header h3 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.calendar-header button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.calendar-header button:hover {
+  background-color: #0056b3;
+}
+
+/* Angular Calendar specific overrides */
+.cal-month-view .cal-header {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #eee;
+}
+
+.cal-month-view .cal-cell-row {
+  border-bottom: 1px solid #eee;
+}
+
+.cal-month-view .cal-day-number {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #555;
+}
+
+.cal-month-view .cal-event {
+  background-color: #28a745; /* Green for events */
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin-bottom: 2px;
   font-size: 0.8em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cal-month-view .cal-today {
+  background-color: #e9ecef;
+}
+
+.cal-month-view .cal-weekend {
+  background-color: #fafafa;
 }

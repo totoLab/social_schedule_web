@@ -1,45 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CalendarModule, CalendarEvent, CalendarView } from 'angular-calendar';
+import { DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ScheduleService } from '../services/schedule';
 import { Schedule } from '../models';
+import { addMonths, subMonths } from 'date-fns';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    CalendarModule,
+  ],
   templateUrl: './calendar.html',
   styleUrl: './calendar.css'
 })
 export class CalendarComponent implements OnInit {
-  currentMonth: Date = new Date();
-  daysInMonth: Date[] = [];
-  schedules: Schedule[] = [];
+  view: CalendarView = CalendarView.Month;
+  viewDate: Date = new Date();
+  calendarEvents: CalendarEvent[] = [];
 
   constructor(private scheduleService: ScheduleService) { }
 
   ngOnInit(): void {
-    this.generateCalendar();
     this.fetchSchedules();
   }
 
-  generateCalendar(): void {
-    this.daysInMonth = [];
-    const year = this.currentMonth.getFullYear();
-    const month = this.currentMonth.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-
-    for (let i = 1; i <= lastDay.getDate(); i++) {
-      this.daysInMonth.push(new Date(year, month, i));
-    }
-  }
-
   fetchSchedules(): void {
-    const year = this.currentMonth.getFullYear();
-    const month = this.currentMonth.getMonth() + 1; // Month is 0-indexed in Date, 1-indexed in API
+    const year = this.viewDate.getFullYear();
+    const month = this.viewDate.getMonth() + 1; // Month is 0-indexed in Date, 1-indexed in API
     this.scheduleService.getSchedulesByMonth(year, month).subscribe({
       next: (data) => {
-        this.schedules = data;
+        this.calendarEvents = data.map(s => ({
+          title: `${s.person.name} - ${s.contentType.name}`,
+          start: new Date(s.scheduledDate),
+          color: { primary: s.person.color, secondary: s.person.color },
+          allDay: true
+        }));
       },
       error: (err) => {
         console.error('Error fetching schedules', err);
@@ -47,19 +46,19 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  getScheduleForDay(day: Date): Schedule | undefined {
-    return this.schedules.find(s => new Date(s.scheduledDate).toDateString() === day.toDateString());
-  }
-
-  nextMonth(): void {
-    this.currentMonth.setMonth(this.currentMonth.getMonth() + 1);
-    this.generateCalendar();
+  incrementMonth(): void {
+    this.viewDate = addMonths(this.viewDate, 1);
     this.fetchSchedules();
   }
 
-  prevMonth(): void {
-    this.currentMonth.setMonth(this.currentMonth.getMonth() - 1);
-    this.generateCalendar();
+  decrementMonth(): void {
+    this.viewDate = subMonths(this.viewDate, 1);
+    this.fetchSchedules();
+  }
+
+  today(): void {
+    this.viewDate = new Date();
     this.fetchSchedules();
   }
 }
+
