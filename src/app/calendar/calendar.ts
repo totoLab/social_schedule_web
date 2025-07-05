@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CalendarModule, CalendarEvent, CalendarView } from 'angular-calendar';
-import { DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ScheduleService } from '../services/schedule';
 import { Schedule } from '../models';
 import { addMonths, subMonths } from 'date-fns';
@@ -60,5 +58,13 @@ export class CalendarComponent implements OnInit {
     this.viewDate = new Date();
     this.fetchSchedules();
   }
-}
 
+  // Optional: Add event handlers for calendar interactions
+  handleEvent(action: string, event: CalendarEvent): void {
+    console.log(`Event ${action}:`, event);
+  }
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    console.log('Day clicked:', date, events);
+  }
+}
