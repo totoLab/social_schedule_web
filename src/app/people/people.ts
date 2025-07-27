@@ -19,7 +19,7 @@ export class PeopleComponent implements OnInit {
     const selectedPerson = this.people.find(p => p.id === this.selectedPersonId);
     return selectedPerson ? selectedPerson.name : '';
   }
-  personSchedules: Schedule[] = [];
+  personContentData: { typeDistribution: { [key: string]: number } } | null = null;
   currentYear: number = new Date().getFullYear();
   currentMonth: number = new Date().getMonth() + 1; // 1-indexed
   viewMode: 'month' | 'year' = 'month';
@@ -43,34 +43,32 @@ export class PeopleComponent implements OnInit {
 
   onPersonSelect(): void {
     if (this.selectedPersonId) {
+      console.log("Loading person data...")
       this.loadPersonContent();
     } else {
-      this.personSchedules = [];
+      this.personContentData = null;
     }
   }
 
   loadPersonContent(): void {
-    if (this.selectedPersonId) {
-      if (this.viewMode === 'month') {
-        this.scheduleService.getPersonContent(this.selectedPersonId, this.currentYear, this.currentMonth).subscribe({
-          next: (data) => {
-            this.personSchedules = data.schedules; // Assuming backend returns schedules directly or within a property like 'schedules'
-          },
-          error: (err) => {
-            console.error('Error fetching person content by month', err);
-          }
-        });
-      } else {
-        this.scheduleService.getPersonContent(this.selectedPersonId, this.currentYear).subscribe({
-          next: (data) => {
-            this.personSchedules = data.schedules; // Assuming backend returns schedules directly or within a property like 'schedules'
-          },
-          error: (err) => {
-            console.error('Error fetching person content by year', err);
-          }
-        });
-      }
+    if (!this.selectedPersonId) {
+      this.personContentData = null;
+      return;
     }
+
+    const contentObservable = this.viewMode === 'month'
+      ? this.scheduleService.getPersonContent(this.selectedPersonId, this.currentYear, this.currentMonth)
+      : this.scheduleService.getPersonContent(this.selectedPersonId, this.currentYear);
+
+    contentObservable.subscribe({
+      next: (data) => {
+        this.personContentData = data;
+      },
+      error: (err) => {
+        console.error(`Error fetching person content by ${this.viewMode}`, err);
+        this.personContentData = null;
+      }
+    });
   }
 
   nextPeriod(): void {

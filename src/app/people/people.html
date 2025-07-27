@@ -17,11 +17,16 @@
       <button (click)="changeViewMode('year')">Year View</button>
     </div>
 
-    <h3>Schedules for {{ selectedPersonName }}</h3>
-    <ul>
-      <li *ngFor="let schedule of personSchedules">
-        {{ schedule.scheduledDate | date:'mediumDate' }} - {{ schedule.contentType.name }}
-      </li>
-    </ul>
+    <h3>Content Distribution for {{ selectedPersonName }}</h3>
+    <div *ngIf="personContentData && personContentData.typeDistribution && (personContentData.typeDistribution | keyvalue).length > 0; else noData">
+      <ul>
+        <li *ngFor="let item of personContentData.typeDistribution | keyvalue">
+          {{ item.key }}: {{ item.value }}
+        </li>
+      </ul>
+    </div>
+    <ng-template #noData>
+      <p>No content data available for this period.</p>
+    </ng-template>
   </div>
 </div>
