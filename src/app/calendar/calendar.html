@@ -12,12 +12,12 @@
     <div class="cell-content">
       <div *ngIf="day.events.length > 0">
         <div *ngIf="day.events.length === 1; else multipleEvents">
-          <div class="event-entry" [style.color]="day.events[0].color.primary">
+          <div class="event-entry" [style.border-left-color]="day.events[0].color.primary">
             <strong>{{ day.events[0].meta.personName }}</strong> - {{ day.events[0].meta.contentTypeName }}
           </div>
         </div>
         <ng-template #multipleEvents>
-          <div *ngFor="let event of day.events" class="event-entry" [style.color]="event.color.primary">
+          <div *ngFor="let event of day.events" class="event-entry" [style.border-left-color]="event.color.primary">
             {{ event.meta.personName }}
           </div>
         </ng-template>

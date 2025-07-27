@@ -49,19 +49,29 @@
   color: #555;
 }
 
+.cal-month-view .cal-day-cell {
+  min-height: 110px; /* Ensures all tiles have the same height */
+}
+
 .cell-content {
   margin-top: 5px;
   padding: 0 5px;
+  height: 85px; /* Fixed height for the content area */
+  overflow: hidden; /* Hides any content that overflows */
+  text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
 }
 
 .event-entry {
-  font-size: 0.8em;
+  font-size: 0.85em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   border-radius: 3px;
-  padding: 2px 4px;
+  padding: 3px 6px;
+  border-left: 5px solid; /* The color will be set dynamically */
+  color: #212529; /* Dark, high-contrast text color */
+  background-color: #f8f9fa; /* Light background for the entry */
 }
 
 .cal-month-view .cal-today {
