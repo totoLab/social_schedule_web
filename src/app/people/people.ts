@@ -24,6 +24,10 @@ export class PeopleComponent implements OnInit {
   currentMonth: number = new Date().getMonth() + 1; // 1-indexed
   viewMode: 'month' | 'year' = 'month';
 
+  get viewDate(): Date {
+    return new Date(this.currentYear, this.currentMonth - 1);
+  }
+
   constructor(private scheduleService: ScheduleService) { }
 
   ngOnInit(): void {
