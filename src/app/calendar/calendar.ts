@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CalendarModule, CalendarEvent, CalendarView } from 'angular-calendar';
 import { ScheduleService } from '../services/schedule';
 import { Schedule } from '../models';
-import { addMonths, subMonths } from 'date-fns';
+import { addMonths, subMonths,  isSameDay, isSameMonth  } from 'date-fns';
 
 @Component({
   selector: 'app-calendar',
@@ -19,6 +19,7 @@ export class CalendarComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   calendarEvents: CalendarEvent[] = [];
+  activeDayIsOpen: boolean = true;
 
   constructor(private scheduleService: ScheduleService) { }
 
@@ -65,6 +66,16 @@ export class CalendarComponent implements OnInit {
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    console.log('Day clicked:', date, events);
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+      }
+      this.viewDate = date;
+    }
   }
 }
