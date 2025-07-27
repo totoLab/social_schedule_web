@@ -49,16 +49,19 @@
   color: #555;
 }
 
-.cal-month-view .cal-event {
-  background-color: #28a745; /* Green for events */
-  color: white;
-  padding: 2px 5px;
-  border-radius: 3px;
-  margin-bottom: 2px;
+.cell-content {
+  margin-top: 5px;
+  padding: 0 5px;
+}
+
+.event-entry {
   font-size: 0.8em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 2px;
+  border-radius: 3px;
+  padding: 2px 4px;
 }
 
 .cal-month-view .cal-today {

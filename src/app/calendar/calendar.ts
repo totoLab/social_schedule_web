@@ -36,7 +36,11 @@ export class CalendarComponent implements OnInit {
           title: `${s.person.name} - ${s.contentType.name}`,
           start: new Date(s.scheduledDate),
           color: { primary: s.person.color, secondary: s.person.color },
-          allDay: true
+          allDay: true,
+          meta: {
+            personName: s.person.name,
+            contentTypeName: s.contentType.name
+          }
         }));
       },
       error: (err) => {
