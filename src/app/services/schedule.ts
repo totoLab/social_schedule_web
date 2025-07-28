@@ -30,4 +30,12 @@ export class ScheduleService {
       return this.http.get<any>(`${this.apiUrl}/analysis/person/${personId}/${year}`);
     }
   }
+
+  getSchedulesForPersonAndContentTypeInMonth(personId: number, contentType: string, year: number, month: number): Observable<Schedule[]> {
+    return this.http.get<Schedule[]>(`${this.apiUrl}/schedules/person/${personId}/${year}/${month}/content-type/${contentType.toLowerCase()}`);
+  }
+
+  getSchedulesForPersonAndContentTypeInYear(personId: number, contentType: string, year: number): Observable<Schedule[]> {
+    return this.http.get<Schedule[]>(`${this.apiUrl}/schedules/person/${personId}/${year}/content-type/${contentType.toLowerCase()}`);
+  }
 }

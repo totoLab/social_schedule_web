@@ -27,7 +27,7 @@
     <h3>Content Distribution for {{ selectedPersonName }}</h3>
     <div *ngIf="personContentData && personContentData.typeDistribution && (personContentData.typeDistribution | keyvalue).length > 0; else noData">
       <ul class="distribution-list">
-        <li *ngFor="let item of personContentData.typeDistribution | keyvalue" class="distribution-item">
+        <li *ngFor="let item of personContentData.typeDistribution | keyvalue" class="distribution-item" (click)="onContentTypeClick(item.key)">
           <span class="distribution-key">{{ item.key }}</span>
           <span class="distribution-value">{{ item.value }}</span>
         </li>
@@ -36,5 +36,26 @@
     <ng-template #noData>
       <p>No content data available for this period.</p>
     </ng-template>
+  </div>
+
+  <!-- New section for content list -->
+  <div class="content-list-container" *ngIf="selectedContentType">
+    <div class="content-list-header">
+      <h4>{{ selectedContentType }} Dates</h4>
+      <button class="close-btn" (click)="clearContentTypeSelection()">×</button>
+    </div>
+    <div *ngIf="isLoadingContent">
+      <p>Loading content...</p>
+    </div>
+    <div *ngIf="!isLoadingContent && contentForSelectedType.length > 0" class="content-scroll-container" #contentList>
+      <ul class="content-list">
+        <li *ngFor="let content of contentForSelectedType" [class.today]="content.scheduledDate.startsWith(today)">
+          {{ content.scheduledDate | date:'fullDate' }}
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="!isLoadingContent && contentForSelectedType.length === 0">
+      <p>No content found for this type.</p>
+    </div>
   </div>
 </div>
