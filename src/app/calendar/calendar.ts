@@ -64,6 +64,21 @@ export class CalendarComponent implements OnInit {
     this.fetchSchedules();
   }
 
+  // Returns black or white depending on background color for contrast
+  getContrastColor(hex: string): string {
+    if (!hex) return '#000';
+    hex = hex.replace('#', '');
+    if (hex.length === 3) {
+      hex = hex.split('').map(x => x + x).join('');
+    }
+    const r = parseInt(hex.substr(0,2),16);
+    const g = parseInt(hex.substr(2,2),16);
+    const b = parseInt(hex.substr(4,2),16);
+    // Standard luminance formula
+    const luminance = (0.299*r + 0.587*g + 0.114*b)/255;
+    return luminance > 0.6 ? '#222' : '#fff';
+  }
+
   // Optional: Add event handlers for calendar interactions
   handleEvent(action: string, event: CalendarEvent): void {
     console.log(`Event ${action}:`, event);
@@ -81,5 +96,12 @@ export class CalendarComponent implements OnInit {
       }
       this.viewDate = date;
     }
+  }
+
+  getSlice(events: CalendarEvent[], size: number): CalendarEvent[] {
+    if (size <= 0) {
+      return [];
+    }
+    return [...events].slice(0, size);
   }
 }

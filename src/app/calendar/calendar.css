@@ -74,6 +74,33 @@
   background-color: #f8f9fa; /* Light background for the entry */
 }
 
+.event-entry.prominent-event-entry {
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 12px 8px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 56px;
+  transition: box-shadow 0.2s;
+}
+
+.event-entry .event-person {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.event-entry .event-type {
+  font-size: 1em;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
 .cal-month-view .cal-today {
   background-color: #e9ecef;
 }

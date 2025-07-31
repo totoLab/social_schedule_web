@@ -12,13 +12,23 @@
     <div class="cell-content">
       <div *ngIf="day.events.length > 0">
         <div *ngIf="day.events.length === 1; else multipleEvents">
-          <div class="event-entry" [style.border-left-color]="day.events[0].color.primary">
-            <strong>{{ day.events[0].meta.personName }}</strong> - {{ day.events[0].meta.contentTypeName }}
+          <div class="event-entry prominent-event-entry"
+               [style.background-color]="day.events[0].color.primary"
+               [style.color]="getContrastColor(day.events[0].color.primary)">
+            <div class="event-person">{{ day.events[0].meta.personName }}</div>
+            <div class="event-type">{{ day.events[0].meta.contentTypeName }}</div>
           </div>
         </div>
         <ng-template #multipleEvents>
-          <div *ngFor="let event of day.events" class="event-entry" [style.border-left-color]="event.color.primary">
-            {{ event.meta.personName }}
+          <ng-container *ngFor="let event of getSlice(day.events, 2)">
+            <div class="event-entry name-only-entry"
+                 [style.background-color]="event.color.primary"
+                 [style.color]="getContrastColor(event.color.primary)">
+              <div class="event-person">{{ event.meta.personName }}</div>
+            </div>
+          </ng-container>
+          <div *ngIf="day.events.length > 2" class="more-indicator">
+            +{{ day.events.length - 2 }} more
           </div>
         </ng-template>
       </div>
